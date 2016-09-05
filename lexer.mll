@@ -8,6 +8,8 @@ let num   = digit+ | digit+ '.' digit+
 rule main = parse
 | space+        { main lexbuf }
 | "#"           { comment_lex lexbuf; main lexbuf }
+| ";"           { Parser.SEMI }
+| ","           { Parser.COMM }
 | "def"         { Parser.DEF }
 | "extern"      { Parser.EXTERN }
 | "if"          { Parser.IF }

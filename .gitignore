@@ -1,3 +1,7 @@
 .merlin
 *.automaton
 *.cm*
+parser.ml
+parser.mli
+lexer.ml
+

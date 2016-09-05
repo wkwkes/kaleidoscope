@@ -3,18 +3,21 @@ open Llvm
 
 let hoge = create_context ()
 
+(* 
 type args = Args of string list
+*)
 
 type expr =
-    Number of float | Variable of string | Binary of string * expr * expr | 
-    Call of string * expr | If of expr * expr * expr
+    Number of float | Variable of string | Binary_c of string * expr * expr | 
+    Binary_l of string * expr * expr | Call of string * expr | If of expr * expr * expr
 
-type proto = Prototype of string * args
+type proto = Prototype of string * string array
 
 type func = Function of proto * expr
 
-type toplevel = 
+(* type toplevel = 
     Exp of expr | Def of func | Ext of proto
+*)
 
 let rec print_arg = function
     | Args [] -> ()
