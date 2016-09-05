@@ -1,0 +1,27 @@
+### Starting build.
+# Target: main.ml.depends, tags: { extension:ml, file:main.ml, ocaml, ocamldep, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamldep.opt -modules main.ml > main.ml.depends
+# Target: codegen.ml.depends, tags: { extension:ml, file:codegen.ml, ocaml, ocamldep, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamldep.opt -modules codegen.ml > codegen.ml.depends
+# Target: syntax.ml.depends, tags: { extension:ml, file:syntax.ml, ocaml, ocamldep, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamldep.opt -modules syntax.ml > syntax.ml.depends
+# Target: syntax.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:syntax.cmo, file:syntax.ml, implem, ocaml, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamlc.opt -c -I /Users/oshikawahiroki/.opam/4.03.0/lib/llvm/. -o syntax.cmo syntax.ml
+# Target: lexer.mll, tags: { extension:mll, file:lexer.mll, lexer, ocaml, ocamllex, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamllex.opt -q lexer.mll
+# Target: lexer.ml.depends, tags: { extension:ml, file:lexer.ml, ocaml, ocamldep, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamldep.opt -modules lexer.ml > lexer.ml.depends
+# Target: parser.mly, tags: { extension:mly, file:parser.mly, infer, ocaml, ocamlyacc, parser, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamlyacc parser.mly
+# Target: parser.mli.depends, tags: { extension:mli, file:parser.mli, ocaml, ocamldep, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamldep.opt -modules parser.mli > parser.mli.depends
+# Target: parser.cmi, tags: { byte, compile, extension:mli, file:parser.mli, interf, ocaml, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamlc.opt -c -I /Users/oshikawahiroki/.opam/4.03.0/lib/llvm/. -o parser.cmi parser.mli
+# Target: codegen.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:codegen.cmo, file:codegen.ml, implem, ocaml, quiet }
+/Users/oshikawahiroki/.opam/4.03.0/bin/ocamlc.opt -c -I /Users/oshikawahiroki/.opam/4.03.0/lib/llvm/. -o codegen.cmo codegen.ml
++ /Users/oshikawahiroki/.opam/4.03.0/bin/ocamlc.opt -c -I /Users/oshikawahiroki/.opam/4.03.0/lib/llvm/. -o codegen.cmo codegen.ml
+File "codegen.ml", line 40, characters 51-55:
+Error: This expression has type Syntax.expr
+       but an expression was expected of type 'a array
+Command exited with code 2.
+# Compilation unsuccessful.

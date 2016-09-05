@@ -1,0 +1,407 @@
+State 0:
+top' -> . top [ # ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IF shift to state 3
+-- On IDENT shift to state 4
+-- On EXTERN shift to state 32
+-- On DEF shift to state 42
+-- On top shift to state 46
+-- On factor_expr shift to state 9
+-- On expr shift to state 47
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 21
+
+State 1:
+atomic_expr -> NUMBER . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES reduce production atomic_expr -> NUMBER 
+-- On THEN reduce production atomic_expr -> NUMBER 
+-- On RPARENT reduce production atomic_expr -> NUMBER 
+-- On PLUS reduce production atomic_expr -> NUMBER 
+-- On MINUS reduce production atomic_expr -> NUMBER 
+-- On LT reduce production atomic_expr -> NUMBER 
+-- On GT reduce production atomic_expr -> NUMBER 
+-- On EOF reduce production atomic_expr -> NUMBER 
+-- On ELSE reduce production atomic_expr -> NUMBER 
+-- On DIV reduce production atomic_expr -> NUMBER 
+
+State 2:
+atomic_expr -> LPARENT . expr RPARENT [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IF shift to state 3
+-- On IDENT shift to state 4
+-- On factor_expr shift to state 9
+-- On expr shift to state 30
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 21
+
+State 3:
+expr -> IF . expr THEN expr ELSE expr [ THEN RPARENT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IF shift to state 3
+-- On IDENT shift to state 4
+-- On factor_expr shift to state 9
+-- On expr shift to state 15
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 21
+
+State 4:
+atomic_expr -> IDENT . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+expr -> IDENT . LPARENT arg RPARENT [ THEN RPARENT EOF ELSE ]
+-- On LPARENT shift to state 5
+-- On TIMES reduce production atomic_expr -> IDENT 
+-- On THEN reduce production atomic_expr -> IDENT 
+-- On RPARENT reduce production atomic_expr -> IDENT 
+-- On PLUS reduce production atomic_expr -> IDENT 
+-- On MINUS reduce production atomic_expr -> IDENT 
+-- On LT reduce production atomic_expr -> IDENT 
+-- On GT reduce production atomic_expr -> IDENT 
+-- On EOF reduce production atomic_expr -> IDENT 
+-- On ELSE reduce production atomic_expr -> IDENT 
+-- On DIV reduce production atomic_expr -> IDENT 
+
+State 5:
+expr -> IDENT LPARENT . arg RPARENT [ THEN RPARENT EOF ELSE ]
+-- On IDENT shift to state 6
+-- On arg shift to state 7
+
+State 6:
+arg -> IDENT . [ RPARENT ]
+-- On RPARENT reduce production arg -> IDENT 
+
+State 7:
+expr -> IDENT LPARENT arg . RPARENT [ THEN RPARENT EOF ELSE ]
+-- On RPARENT shift to state 8
+
+State 8:
+expr -> IDENT LPARENT arg RPARENT . [ THEN RPARENT EOF ELSE ]
+-- On THEN reduce production expr -> IDENT LPARENT arg RPARENT 
+-- On RPARENT reduce production expr -> IDENT LPARENT arg RPARENT 
+-- On EOF reduce production expr -> IDENT LPARENT arg RPARENT 
+-- On ELSE reduce production expr -> IDENT LPARENT arg RPARENT 
+
+State 9:
+arith_expr -> factor_expr . [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+factor_expr -> factor_expr . TIMES atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+factor_expr -> factor_expr . DIV atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES shift to state 10
+-- On DIV shift to state 13
+-- On THEN reduce production arith_expr -> factor_expr 
+-- On RPARENT reduce production arith_expr -> factor_expr 
+-- On PLUS reduce production arith_expr -> factor_expr 
+-- On MINUS reduce production arith_expr -> factor_expr 
+-- On LT reduce production arith_expr -> factor_expr 
+-- On GT reduce production arith_expr -> factor_expr 
+-- On EOF reduce production arith_expr -> factor_expr 
+-- On ELSE reduce production arith_expr -> factor_expr 
+
+State 10:
+factor_expr -> factor_expr TIMES . atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IDENT shift to state 11
+-- On atomic_expr shift to state 12
+
+State 11:
+atomic_expr -> IDENT . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES reduce production atomic_expr -> IDENT 
+-- On THEN reduce production atomic_expr -> IDENT 
+-- On RPARENT reduce production atomic_expr -> IDENT 
+-- On PLUS reduce production atomic_expr -> IDENT 
+-- On MINUS reduce production atomic_expr -> IDENT 
+-- On LT reduce production atomic_expr -> IDENT 
+-- On GT reduce production atomic_expr -> IDENT 
+-- On EOF reduce production atomic_expr -> IDENT 
+-- On ELSE reduce production atomic_expr -> IDENT 
+-- On DIV reduce production atomic_expr -> IDENT 
+
+State 12:
+factor_expr -> factor_expr TIMES atomic_expr . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On THEN reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On RPARENT reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On PLUS reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On MINUS reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On LT reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On GT reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On EOF reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On ELSE reduce production factor_expr -> factor_expr TIMES atomic_expr 
+-- On DIV reduce production factor_expr -> factor_expr TIMES atomic_expr 
+
+State 13:
+factor_expr -> factor_expr DIV . atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IDENT shift to state 11
+-- On atomic_expr shift to state 14
+
+State 14:
+factor_expr -> factor_expr DIV atomic_expr . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On THEN reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On RPARENT reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On PLUS reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On MINUS reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On LT reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On GT reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On EOF reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On ELSE reduce production factor_expr -> factor_expr DIV atomic_expr 
+-- On DIV reduce production factor_expr -> factor_expr DIV atomic_expr 
+
+State 15:
+expr -> IF expr . THEN expr ELSE expr [ THEN RPARENT EOF ELSE ]
+-- On THEN shift to state 16
+
+State 16:
+expr -> IF expr THEN . expr ELSE expr [ THEN RPARENT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IF shift to state 3
+-- On IDENT shift to state 4
+-- On factor_expr shift to state 9
+-- On expr shift to state 17
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 21
+
+State 17:
+expr -> IF expr THEN expr . ELSE expr [ THEN RPARENT EOF ELSE ]
+-- On ELSE shift to state 18
+
+State 18:
+expr -> IF expr THEN expr ELSE . expr [ THEN RPARENT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IF shift to state 3
+-- On IDENT shift to state 4
+-- On factor_expr shift to state 9
+-- On expr shift to state 19
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 21
+
+State 19:
+expr -> IF expr THEN expr ELSE expr . [ THEN RPARENT EOF ELSE ]
+-- On THEN reduce production expr -> IF expr THEN expr ELSE expr 
+-- On RPARENT reduce production expr -> IF expr THEN expr ELSE expr 
+-- On EOF reduce production expr -> IF expr THEN expr ELSE expr 
+-- On ELSE reduce production expr -> IF expr THEN expr ELSE expr 
+
+State 20:
+factor_expr -> atomic_expr . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES reduce production factor_expr -> atomic_expr 
+-- On THEN reduce production factor_expr -> atomic_expr 
+-- On RPARENT reduce production factor_expr -> atomic_expr 
+-- On PLUS reduce production factor_expr -> atomic_expr 
+-- On MINUS reduce production factor_expr -> atomic_expr 
+-- On LT reduce production factor_expr -> atomic_expr 
+-- On GT reduce production factor_expr -> atomic_expr 
+-- On EOF reduce production factor_expr -> atomic_expr 
+-- On ELSE reduce production factor_expr -> atomic_expr 
+-- On DIV reduce production factor_expr -> atomic_expr 
+
+State 21:
+arith_expr -> arith_expr . PLUS factor_expr [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+arith_expr -> arith_expr . MINUS factor_expr [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+expr -> arith_expr . LT arith_expr [ THEN RPARENT EOF ELSE ]
+expr -> arith_expr . GT arith_expr [ THEN RPARENT EOF ELSE ]
+expr -> arith_expr . [ THEN RPARENT EOF ELSE ]
+-- On PLUS shift to state 22
+-- On MINUS shift to state 24
+-- On LT shift to state 26
+-- On GT shift to state 28
+-- On THEN reduce production expr -> arith_expr 
+-- On RPARENT reduce production expr -> arith_expr 
+-- On EOF reduce production expr -> arith_expr 
+-- On ELSE reduce production expr -> arith_expr 
+
+State 22:
+arith_expr -> arith_expr PLUS . factor_expr [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IDENT shift to state 11
+-- On factor_expr shift to state 23
+-- On atomic_expr shift to state 20
+
+State 23:
+arith_expr -> arith_expr PLUS factor_expr . [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+factor_expr -> factor_expr . TIMES atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+factor_expr -> factor_expr . DIV atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES shift to state 10
+-- On DIV shift to state 13
+-- On THEN reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On RPARENT reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On PLUS reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On MINUS reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On LT reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On GT reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On EOF reduce production arith_expr -> arith_expr PLUS factor_expr 
+-- On ELSE reduce production arith_expr -> arith_expr PLUS factor_expr 
+
+State 24:
+arith_expr -> arith_expr MINUS . factor_expr [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IDENT shift to state 11
+-- On factor_expr shift to state 25
+-- On atomic_expr shift to state 20
+
+State 25:
+arith_expr -> arith_expr MINUS factor_expr . [ THEN RPARENT PLUS MINUS LT GT EOF ELSE ]
+factor_expr -> factor_expr . TIMES atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+factor_expr -> factor_expr . DIV atomic_expr [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES shift to state 10
+-- On DIV shift to state 13
+-- On THEN reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On RPARENT reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On PLUS reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On MINUS reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On LT reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On GT reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On EOF reduce production arith_expr -> arith_expr MINUS factor_expr 
+-- On ELSE reduce production arith_expr -> arith_expr MINUS factor_expr 
+
+State 26:
+expr -> arith_expr LT . arith_expr [ THEN RPARENT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IDENT shift to state 11
+-- On factor_expr shift to state 9
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 27
+
+State 27:
+arith_expr -> arith_expr . PLUS factor_expr [ THEN RPARENT PLUS MINUS EOF ELSE ]
+arith_expr -> arith_expr . MINUS factor_expr [ THEN RPARENT PLUS MINUS EOF ELSE ]
+expr -> arith_expr LT arith_expr . [ THEN RPARENT EOF ELSE ]
+-- On PLUS shift to state 22
+-- On MINUS shift to state 24
+-- On THEN reduce production expr -> arith_expr LT arith_expr 
+-- On RPARENT reduce production expr -> arith_expr LT arith_expr 
+-- On EOF reduce production expr -> arith_expr LT arith_expr 
+-- On ELSE reduce production expr -> arith_expr LT arith_expr 
+
+State 28:
+expr -> arith_expr GT . arith_expr [ THEN RPARENT EOF ELSE ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IDENT shift to state 11
+-- On factor_expr shift to state 9
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 29
+
+State 29:
+arith_expr -> arith_expr . PLUS factor_expr [ THEN RPARENT PLUS MINUS EOF ELSE ]
+arith_expr -> arith_expr . MINUS factor_expr [ THEN RPARENT PLUS MINUS EOF ELSE ]
+expr -> arith_expr GT arith_expr . [ THEN RPARENT EOF ELSE ]
+-- On PLUS shift to state 22
+-- On MINUS shift to state 24
+-- On THEN reduce production expr -> arith_expr GT arith_expr 
+-- On RPARENT reduce production expr -> arith_expr GT arith_expr 
+-- On EOF reduce production expr -> arith_expr GT arith_expr 
+-- On ELSE reduce production expr -> arith_expr GT arith_expr 
+
+State 30:
+atomic_expr -> LPARENT expr . RPARENT [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On RPARENT shift to state 31
+
+State 31:
+atomic_expr -> LPARENT expr RPARENT . [ TIMES THEN RPARENT PLUS MINUS LT GT EOF ELSE DIV ]
+-- On TIMES reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On THEN reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On RPARENT reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On PLUS reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On MINUS reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On LT reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On GT reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On EOF reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On ELSE reduce production atomic_expr -> LPARENT expr RPARENT 
+-- On DIV reduce production atomic_expr -> LPARENT expr RPARENT 
+
+State 32:
+top -> EXTERN . prot EOF [ # ]
+-- On IDENT shift to state 33
+-- On prot shift to state 40
+
+State 33:
+prot -> IDENT . LPARENT args RPARENT [ NUMBER LPARENT IF IDENT EOF ]
+-- On LPARENT shift to state 34
+
+State 34:
+prot -> IDENT LPARENT . args RPARENT [ NUMBER LPARENT IF IDENT EOF ]
+-- On IDENT shift to state 35
+-- On args shift to state 38
+-- On arg shift to state 37
+
+State 35:
+arg -> IDENT . [ RPARENT ]
+args -> IDENT . args [ RPARENT ]
+-- On IDENT shift to state 35
+-- On args shift to state 36
+-- On arg shift to state 37
+-- On RPARENT reduce production arg -> IDENT 
+
+State 36:
+args -> IDENT args . [ RPARENT ]
+-- On RPARENT reduce production args -> IDENT args 
+
+State 37:
+args -> arg . [ RPARENT ]
+-- On RPARENT reduce production args -> arg 
+
+State 38:
+prot -> IDENT LPARENT args . RPARENT [ NUMBER LPARENT IF IDENT EOF ]
+-- On RPARENT shift to state 39
+
+State 39:
+prot -> IDENT LPARENT args RPARENT . [ NUMBER LPARENT IF IDENT EOF ]
+-- On NUMBER reduce production prot -> IDENT LPARENT args RPARENT 
+-- On LPARENT reduce production prot -> IDENT LPARENT args RPARENT 
+-- On IF reduce production prot -> IDENT LPARENT args RPARENT 
+-- On IDENT reduce production prot -> IDENT LPARENT args RPARENT 
+-- On EOF reduce production prot -> IDENT LPARENT args RPARENT 
+
+State 40:
+top -> EXTERN prot . EOF [ # ]
+-- On EOF shift to state 41
+
+State 41:
+top -> EXTERN prot EOF . [ # ]
+-- On # reduce production top -> EXTERN prot EOF 
+
+State 42:
+top -> DEF . prot expr EOF [ # ]
+-- On IDENT shift to state 33
+-- On prot shift to state 43
+
+State 43:
+top -> DEF prot . expr EOF [ # ]
+-- On NUMBER shift to state 1
+-- On LPARENT shift to state 2
+-- On IF shift to state 3
+-- On IDENT shift to state 4
+-- On factor_expr shift to state 9
+-- On expr shift to state 44
+-- On atomic_expr shift to state 20
+-- On arith_expr shift to state 21
+
+State 44:
+top -> DEF prot expr . EOF [ # ]
+-- On EOF shift to state 45
+
+State 45:
+top -> DEF prot expr EOF . [ # ]
+-- On # reduce production top -> DEF prot expr EOF 
+
+State 46:
+top' -> top . [ # ]
+-- On # accept top
+
+State 47:
+top -> expr . EOF [ # ]
+-- On EOF shift to state 48
+
+State 48:
+top -> expr EOF . [ # ]
+-- On # reduce production top -> expr EOF 
+
