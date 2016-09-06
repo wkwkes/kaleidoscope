@@ -7,3 +7,4 @@ lexer.ml
 _build
 *.native
 *.byte
+memo
