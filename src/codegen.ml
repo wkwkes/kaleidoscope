@@ -26,7 +26,7 @@ let rec codegen_expr = function
         | "<" -> let i = build_fcmp Fcmp.Ult lhs_val rhs_val "lttmp"
                      builder in build_uitofp i float_type "boollttmp"
               builder
-        | ">" -> let i = build_fcmp Fcmp.Ugt rhs_val lhs_val "gttmp"
+        | ">" -> let i = build_fcmp Fcmp.Ugt lhs_val rhs_val "gttmp"
                      builder in build_uitofp i float_type "boolgttmp"
               builder
         | _ -> raise (Error "error binary")
@@ -48,7 +48,7 @@ let codegen_proto = function
       let ft = function_type float_type floats in
       let f = 
         match lookup_function name the_module with
-        | None -> declare_function name ft the_module
+        | None -> print_string (name^" is being checked\n"); declare_function name ft the_module;
         | Some f -> 
             if block_begin f <> At_end f then
               raise (Error "redefinition of function");
@@ -63,7 +63,7 @@ let codegen_proto = function
         ) (params f);
       f
 
-let codegen_func = function
+let codegen_func the_fpm = function
   | Function (proto, body) ->
       Hashtbl.clear named_values;
       let the_function = codegen_proto proto in
@@ -73,6 +73,7 @@ let codegen_func = function
         let ret_val = codegen_expr body in
         let _ = build_ret ret_val builder in
         Llvm_analysis.assert_valid_function the_function;
+        let _ = PassManager.run_function the_function the_fpm in
         the_function
       with e ->
         delete_function the_function;

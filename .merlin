@@ -1,4 +1,0 @@
-PKG llvm
-PKG ppx_deriving.std
-
-B _build/**

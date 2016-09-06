@@ -1,8 +1,5 @@
 open Llvm
-
-
-let hoge = create_context ()
-
+    
 (* 
 type args = Args of string list
 *)

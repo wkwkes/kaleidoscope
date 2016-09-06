@@ -1,1 +1,2 @@
-true: package(llvm), package(ppx_deriving.std), package(llvm.analysis)
+true: package(llvm), package(llvm.analysis), package(llvm.executionengine), package(llvm.target), package(llvm.scalar_opts)
+true: package(ppx_deriving.std), package(ctypes), package(ctypes.foreign)
