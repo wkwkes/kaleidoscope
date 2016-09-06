@@ -35,8 +35,6 @@ expr:
   | arith_expr LT arith_expr    { Binary_l ("<", $1, $3) }
   | arith_expr GT arith_expr    { Binary_l (">", $1, $3) }
   (* | IF expr THEN expr ELSE expr { If($2, $4, $6) } *)
-  | IDENT LPARENT expr_args RPARENT   { Call($1, Array.of_list $3) }
-  | IDENT LPARENT RPARENT       { Call($1, [||]) }
   | arith_expr                  { $1 } 
 ;
 
@@ -50,13 +48,15 @@ factor_expr:
   | factor_expr TIMES atomic_expr { Binary_c ("*", $1, $3) }
   | factor_expr DIV atomic_expr   { Binary_c ("/", $1, $3) }
   | atomic_expr                   { $1 }  
+  | IDENT LPARENT expr_args RPARENT   { Call($1, Array.of_list $3) }
+  | IDENT LPARENT RPARENT       { Call($1, [||]) }
   ;
 
 atomic_expr:
-      | NUMBER               { Number $1 }
-      | IDENT                { Variable $1 }
-      | LPARENT expr RPARENT { $2 }
-      ;
+  | NUMBER               { Number $1 }
+  | IDENT                { Variable $1 }
+  | LPARENT expr RPARENT { $2 }
+  ;
 
 expr_args:
     | expr COMM expr_args   { $1::$3 }
