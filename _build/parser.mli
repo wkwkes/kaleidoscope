@@ -1,20 +1,26 @@
-type token =
-  | DEF
-  | EXTERN
-  | LPARENT
+
+(* The type of tokens. *)
+
+type token = 
+  | TIMES
+  | SEMI
   | RPARENT
   | PLUS
-  | MINUS
-  | TIMES
-  | DIV
-  | LT
-  | GT
-  | IF
-  | THEN
-  | ELSE
-  | EOF
   | NUMBER of (float)
+  | MINUS
+  | LT
+  | LPARENT
   | IDENT of (string)
+  | GT
+  | EXTERN
+  | DIV
+  | DEF
+  | COMM
 
-val top :
-  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Syntax.toplevel
+(* This exception is raised by the monolithic API functions. *)
+
+exception Error
+
+(* The monolithic API. *)
+
+val top: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (Ast.toplevel)
