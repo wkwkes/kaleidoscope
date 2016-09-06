@@ -5,3 +5,5 @@ parser.ml
 parser.mli
 lexer.ml
 _build
+*.native
+*.byte
