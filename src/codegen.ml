@@ -8,10 +8,10 @@ let context = global_context ()
 let the_module = create_module context "myjit"
 let builder = builder context
 let named_values : (string, llvalue) Hashtbl.t = Hashtbl.create 10
-let double_type = double_type context
+let float_type = float_type context
 
 let rec codegen_expr = function
-  | Number  n -> const_float double_type n
+  | Number  n -> const_float float_type n
   | Variable name ->
       (try (Hashtbl.find named_values name) with
        | Not_found -> raise (Error "unknown variable name"))
@@ -20,14 +20,14 @@ let rec codegen_expr = function
       let rhs_val = codegen_expr rhs in
       begin
         match op with
-        | "+" -> build_add lhs_val rhs_val "addtmp" builder
-        | "-" -> build_sub lhs_val rhs_val "subtmp" builder
-        | "*" -> build_mul lhs_val rhs_val "multmp" builder
+        | "+" -> build_fadd lhs_val rhs_val "faddtmp" builder
+        | "-" -> build_fsub lhs_val rhs_val "fsubtmp" builder
+        | "*" -> build_fmul lhs_val rhs_val "fmultmp" builder
         | "<" -> let i = build_fcmp Fcmp.Ult lhs_val rhs_val "lttmp"
-                     builder in build_uitofp i double_type "boollttmp"
+                     builder in build_uitofp i float_type "boollttmp"
               builder
         | ">" -> let i = build_fcmp Fcmp.Ugt rhs_val lhs_val "gttmp"
-                     builder in build_uitofp i double_type "boolgttmp"
+                     builder in build_uitofp i float_type "boolgttmp"
               builder
         | _ -> raise (Error "error binary")
       end
@@ -44,8 +44,8 @@ let rec codegen_expr = function
 
 let codegen_proto = function
   | Prototype (name, args) -> 
-      let doubles = Array.make (Array.length args) double_type in
-      let ft = function_type double_type doubles in
+      let floats = Array.make (Array.length args) float_type in
+      let ft = function_type float_type floats in
       let f = 
         match lookup_function name the_module with
         | None -> declare_function name ft the_module
