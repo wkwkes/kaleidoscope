@@ -16,7 +16,7 @@
 top:
     | DEF prot expr SEMI          { Def (Function ($2, $3)) }
     | EXTERN prot SEMI            { Ext $2 }
-    | expr SEMI                   { Exp (Function (Prototype ("anon", [||]), $1)) } 
+    | expr SEMI                   { Exp (Function (Prototype ("00", [||]), $1)) } 
     (* | EOF                         {} *)
     ;
 

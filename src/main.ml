@@ -1,8 +1,6 @@
 
 open Ast
 open Llvm
-(* open Llvm_executionengine *)
-open Llvm_target
 open Llvm_scalar_opts
 
 exception Error of string
@@ -54,8 +52,7 @@ let codegen_proto named_values the_module = function
             if block_begin f <> At_end f then
               raise (Error "redefinition of function");
             if element_type (type_of f) <> ft then
-              raise (Error "redefinition of funciton with
-                            different # args");
+              raise (Error "redefinition of funciton with different # args");
             f
       in Array.iteri (fun i a -> 
           let n = args.(i) in
@@ -98,14 +95,14 @@ let rec main_loop the_module named_values the_execution_engine the_fpm =
           (print_string (show_toplevel e); flush stdout);
       match e with
       | Def e ->
-          ignore (codegen_func named_values the_module the_fpm e);
+          dump_value (codegen_func named_values the_module the_fpm e);
           main_loop the_module named_values the_execution_engine the_fpm
       | Ext e ->
-          ignore (codegen_proto named_values the_module e);
+          dump_value (codegen_proto named_values the_module e);
           main_loop the_module named_values the_execution_engine the_fpm
       | Exp e ->
           let the_function = codegen_func named_values the_module the_fpm e in
-          let _ =
+          let _ = dump_value the_function;
             print_string "Evaluated to ";
             print_float (function_call the_function the_execution_engine);
             print_newline ();
