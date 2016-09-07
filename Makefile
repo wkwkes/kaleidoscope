@@ -1,7 +1,7 @@
 
 OCB = ocamlbuild -use-ocamlfind -use-menhir -I src
 
-all:native byte
+all:native
 
 native:
 	$(OCB) main.native
