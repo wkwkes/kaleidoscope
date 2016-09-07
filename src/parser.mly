@@ -1,7 +1,5 @@
 %{
     open Ast
-    (* let unique_id = ref 0 *)
-    (* let incr i = i := !i + 1 *)
 %}
 
 %token SEMI COMM DEF EXTERN LPARENT RPARENT PLUS MINUS TIMES DIV LT GT (* IF THEN ELSE EOF *)
