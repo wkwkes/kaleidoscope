@@ -8,6 +8,12 @@ open Ctypes
 (* open PosixTypes *)
 open Foreign
         
+let function_call the_function ee =
+  let exec = Llvm_executionengine.get_function_address
+      (Llvm.value_name the_function) (funptr (void @-> returning float)) ee
+  in
+  exec ()
+    
 
 let rec main_loop the_fpm the_execution_engine =
   print_string "\n# ";
@@ -24,15 +30,17 @@ let rec main_loop the_fpm the_execution_engine =
       | Ext e ->
           dump_value (Codegen.codegen_proto e)
       | Exp e ->
-          let the_function = Codegen.codegen_func the_fpm e in
+           let the_function = Codegen.codegen_func the_fpm e in
           dump_value the_function;
+          (*
           let function_name = Llvm.value_name the_function in
           let result = Llvm_executionengine.get_function_address
           function_name
           (funptr (void @-> returning float))
           the_execution_engine in
+             *)
           print_string "Evaluated to ";
-          print_float (result ());
+          print_float (function_call the_function the_execution_engine);
           print_newline ()
       end
     with Parser.Error -> print_endline "parser error"
@@ -49,11 +57,9 @@ let _ =
   add_instruction_combination the_fpm;
   add_reassociation the_fpm;
   add_gvn the_fpm;
-  add_cfg_simplification the_fpm;
-  try *)
+  add_cfg_simplification the_fpm;*)
+  try 
     main_loop the_fpm the_execution_engine
-  (* with e ->
-    dump_module Codegen.the_module 
-    *)
-      
-  
+  with e ->
+    dump_module Codegen.the_module
+    
