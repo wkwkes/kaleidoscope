@@ -48,8 +48,7 @@ let codegen_proto = function
       let ft = function_type float_type floats in
       let f = 
         match lookup_function name the_module with
-        | None -> print_string (name^" is being checked\n"); 
-          define_function name ft the_module;
+        | None -> print_string (name^" is being checked\n"); declare_function name ft the_module;
         | Some f -> 
             if block_begin f <> At_end f then
               raise (Error "redefinition of function");
