@@ -49,7 +49,7 @@ let codegen_proto named_values the_module = function
       let ft = function_type float_type floats in
       let f = 
         match lookup_function name the_module with
-        | None -> print_string (name^" is being checked\n"); declare_function name ft the_module;
+        | None -> declare_function name ft the_module;
         | Some f -> 
             if block_begin f <> At_end f then
               raise (Error "redefinition of function");
@@ -98,14 +98,14 @@ let rec main_loop the_module named_values the_execution_engine the_fpm =
           (print_string (show_toplevel e); flush stdout);
       match e with
       | Def e ->
-          dump_value (codegen_func named_values the_module the_fpm e);
+          ignore (codegen_func named_values the_module the_fpm e);
           main_loop the_module named_values the_execution_engine the_fpm
       | Ext e ->
-          dump_value (codegen_proto named_values the_module e);
+          ignore (codegen_proto named_values the_module e);
           main_loop the_module named_values the_execution_engine the_fpm
       | Exp e ->
           let the_function = codegen_func named_values the_module the_fpm e in
-          let _ = dump_value the_function;
+          let _ =
             print_string "Evaluated to ";
             print_float (function_call the_function the_execution_engine);
             print_newline ();

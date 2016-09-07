@@ -1,7 +1,7 @@
 %{
     open Ast
-    let unique_id = ref 0
-    let incr i = i := !i + 1
+    (* let unique_id = ref 0 *)
+    (* let incr i = i := !i + 1 *)
 %}
 
 %token SEMI COMM DEF EXTERN LPARENT RPARENT PLUS MINUS TIMES DIV LT GT (* IF THEN ELSE EOF *)
@@ -16,7 +16,7 @@
 top:
     | DEF prot expr SEMI          { Def (Function ($2, $3)) }
     | EXTERN prot SEMI            { Ext $2 }
-    | expr SEMI                   { Exp (Function (Prototype ((incr unique_id; string_of_int !unique_id), [||]), $1)) } 
+    | expr SEMI                   { Exp (Function (Prototype ("anon", [||]), $1)) } 
     (* | EOF                         {} *)
     ;
 
